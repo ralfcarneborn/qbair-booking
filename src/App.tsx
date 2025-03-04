@@ -1,13 +1,11 @@
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
+import { BookingForm } from "@/components/booking-form"
 import './App.css'
 
 function App() {
-
   return (
-    <>
-      <Button>Click me</Button>
-    </>
+    <div className="bg-background min-h-screen">
+      <BookingForm />
+    </div>
   )
 }
 
