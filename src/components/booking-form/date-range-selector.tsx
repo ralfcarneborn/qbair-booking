@@ -10,6 +10,7 @@ interface DateRangeSelectorProps {
   description: string
   disabledDatesFn: (date: Date) => boolean
   tripType: "one-way" | "round-trip"
+  error?: string
 }
 
 export function DateRangeSelector({
@@ -17,7 +18,8 @@ export function DateRangeSelector({
   label,
   description,
   disabledDatesFn,
-  tripType
+  tripType,
+  error
 }: DateRangeSelectorProps) {
   return (
     <div className="space-y-2">
@@ -26,11 +28,11 @@ export function DateRangeSelector({
         <FormField
           control={control}
           name="departureDate"
-          render={({ field: departureDateField }) => (
+          render={({ field: departureDateField, fieldState: departureDateState }) => (
             <FormField
               control={control}
               name="returnDate"
-              render={({ field: returnDateField }) => (
+              render={({ field: returnDateField, fieldState: returnDateState }) => (
                 <FormItem className="flex flex-col">
                   {tripType === "one-way" ? (
                     <Calendar
@@ -64,7 +66,12 @@ export function DateRangeSelector({
                   <FormDescription>
                     {description}
                   </FormDescription>
-                  <FormMessage />
+                  {(departureDateState.error || error) && (
+                    <FormMessage className="text-red-500">{departureDateState.error?.message || error}</FormMessage>
+                  )}
+                  {returnDateState.error && tripType === "round-trip" && (
+                    <FormMessage className="text-red-500">{returnDateState.error.message}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />

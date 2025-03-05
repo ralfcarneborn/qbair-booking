@@ -7,10 +7,10 @@ export const bookingFormSchema = z.object({
   }),
   origin: z.string({
     required_error: "Please select an origin.",
-  }),
+  }).min(1, "Please select an origin airport."),
   destination: z.string({
     required_error: "Please select a destination.",
-  }),
+  }).min(1, "Please select a destination airport."),
   departureDate: z.date({
     required_error: "Please select a departure date.",
   }).refine((date) => {
@@ -40,6 +40,11 @@ export const bookingFormSchema = z.object({
 }, {
   message: "Return date must be same or later than departure date.",
   path: ["returnDate"],
+}).refine((data) => {
+  return data.origin !== data.destination || (data.origin === "" && data.destination === "");
+}, {
+  message: "Origin and destination cannot be the same.",
+  path: ["destination"],
 });
 
 

@@ -12,13 +12,13 @@ export function TripTypeSelector({ control }: TripTypeSelectorProps) {
     <FormField
       control={control}
       name="tripType"
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem className="space-y-3">
           <FormLabel>Trip Type</FormLabel>
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
-              defaultValue={field.value}
+              value={field.value}
               className="flex flex-row space-x-4"
             >
               <FormItem className="flex items-center space-x-2 space-y-0">
@@ -39,7 +39,9 @@ export function TripTypeSelector({ control }: TripTypeSelectorProps) {
               </FormItem>
             </RadioGroup>
           </FormControl>
-          <FormMessage />
+          {fieldState.error && (
+            <FormMessage className="text-red-500">{fieldState.error.message}</FormMessage>
+          )}
         </FormItem>
       )}
     />

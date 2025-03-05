@@ -74,7 +74,7 @@ export function useBookingForm() {
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: initialValues,
-    mode: "onChange",
+    mode: "onSubmit",
   })
   
   const tripType = form.watch("tripType")
@@ -174,8 +174,16 @@ export function useBookingForm() {
   }, [form])
 
   const onSubmit = useCallback(async (values: BookingFormValues) => {
+    console.log("onsubmit:", values)
     try {
       setIsSubmitting(true)
+      
+      const result = await form.trigger()
+      
+      if (!result) {
+        console.error("Validation failed:", form.formState.errors)
+        return
+      }
       
       const formattedValues: FormattedBookingFormValues = {
         ...values,
@@ -197,7 +205,7 @@ export function useBookingForm() {
     } finally {
       setIsSubmitting(false)
     }
-  }, [])
+  }, [form])
 
   return {
     form,

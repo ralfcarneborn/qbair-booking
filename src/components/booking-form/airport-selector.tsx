@@ -9,24 +9,30 @@ interface AirportSelectorProps {
   name: "origin" | "destination"
   label: string
   placeholder: string
+  error?: string
 }
 
 export function AirportSelector({ 
   control, 
   name, 
   label, 
-  placeholder 
+  placeholder,
+  error
 }: AirportSelectorProps) {
   return (
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select 
+            onValueChange={field.onChange} 
+            value={field.value || undefined}
+            defaultValue={undefined}
+          >
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
@@ -38,7 +44,9 @@ export function AirportSelector({
               ))}
             </SelectContent>
           </Select>
-          <FormMessage />
+          {(fieldState.error || error) && (
+            <FormMessage className="text-red-500">{fieldState.error?.message || error}</FormMessage>
+          )}
         </FormItem>
       )}
     />

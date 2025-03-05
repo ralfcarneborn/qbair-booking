@@ -1,10 +1,8 @@
 import { format } from "date-fns"
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
-import { AlertCircle } from "lucide-react"
 
 import { useBookingForm } from "@/hooks/useBookingForm"
 import { airports } from "@/types/TripTypes"
@@ -17,15 +15,12 @@ export function BookingForm() {
     form,
     tripType,
     formData,
-    parseErrors,
     isSubmitting,
     isDepartureDateDisabled,
     isReturnDateDisabled,
     onSubmit,
     resetForm
   } = useBookingForm()
-
-  const hasParseErrors = Object.keys(parseErrors).length > 0
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -35,20 +30,6 @@ export function BookingForm() {
           <CardDescription>Book your flight with QbAir</CardDescription>
         </CardHeader>
         <CardContent>
-          {hasParseErrors && (
-            <Alert variant="destructive" className="mb-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>
-                <ul className="list-disc pl-5">
-                  {Object.entries(parseErrors).map(([key, error]) => (
-                    <li key={key}>{error}</li>
-                  ))}
-                </ul>
-              </AlertDescription>
-            </Alert>
-          )}
-
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <TripTypeSelector control={form.control} />
