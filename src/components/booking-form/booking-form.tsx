@@ -22,7 +22,7 @@ export function BookingForm() {
   } = useBookingForm()
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-2 sm:p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>QbAir Booking</CardTitle>

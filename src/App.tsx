@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="bg-background min-h-screen w-full">
       <BookingForm />
     </div>
   )
