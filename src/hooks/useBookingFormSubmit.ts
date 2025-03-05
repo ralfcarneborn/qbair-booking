@@ -2,6 +2,7 @@ import { useCallback } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { BookingFormValues, FormattedBookingFormValues } from "@/types/FormTypes"
 import { formatDateForSubmission } from "@/utils/dateUtils"
+import { useUrlParams } from "./useUrlParams"
 
 export const useFormSubmit = (
   form: UseFormReturn<BookingFormValues>,
@@ -9,6 +10,8 @@ export const useFormSubmit = (
   setParseErrors: (cb: (prev: Record<string, string>) => Record<string, string>) => void,
   setIsSubmitting: (isSubmitting: boolean) => void
 ) => {
+  const { updateUrlParams } = useUrlParams()
+
   return useCallback(async (values: BookingFormValues) => {
     console.log("onsubmit:", values)
     try {
@@ -27,6 +30,8 @@ export const useFormSubmit = (
         returnDate: formatDateForSubmission(values.returnDate),
       }
       
+      updateUrlParams(values)
+      
       setFormData(values)
       return formattedValues
     } catch (error) {
@@ -41,7 +46,7 @@ export const useFormSubmit = (
     } finally {
       setIsSubmitting(false)
     }
-  }, [form, setFormData, setParseErrors, setIsSubmitting])
+  }, [form, setFormData, setParseErrors, setIsSubmitting, updateUrlParams])
 }
 
 export const useFormReset = (
@@ -49,6 +54,8 @@ export const useFormReset = (
   setFormData: (data: BookingFormValues | null) => void,
   setParseErrors: (cb: (prev: Record<string, string>) => Record<string, string>) => void
 ) => {
+  const { clearUrlParams } = useUrlParams()
+
   return useCallback(() => {
     form.reset({
       tripType: "one-way",
@@ -59,5 +66,7 @@ export const useFormReset = (
     })
     setFormData(null)
     setParseErrors(() => ({}))
-  }, [form, setFormData, setParseErrors])
+    
+    clearUrlParams()
+  }, [form, setFormData, setParseErrors, clearUrlParams])
 }
