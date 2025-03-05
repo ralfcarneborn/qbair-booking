@@ -17,14 +17,13 @@ export function BookingForm() {
     formData,
     isSubmitting,
     isDepartureDateDisabled,
-    isReturnDateDisabled,
     onSubmit,
     resetForm
   } = useBookingForm()
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <Card className="w-full max-w-md min-w-[400px]">
+      <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>QbAir Booking</CardTitle>
           <CardDescription>Book your flight with QbAir</CardDescription>

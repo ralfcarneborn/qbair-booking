@@ -158,11 +158,6 @@ export function useBookingForm() {
     return isPastDate(date)
   }, [])
 
-  const isReturnDateDisabled = useCallback((date: Date): boolean => {
-    const departureDate = form.getValues("departureDate")
-    return isPastDate(date) || isBeforeDepartureDate(date, departureDate)
-  }, [form])
-
   const resetForm = useCallback(() => {
     form.reset({
       tripType: "one-way",
@@ -217,7 +212,6 @@ export function useBookingForm() {
     parseErrors,
     isSubmitting,
     isDepartureDateDisabled,
-    isReturnDateDisabled,
     onSubmit,
     resetForm
   }
