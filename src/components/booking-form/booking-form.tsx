@@ -1,16 +1,16 @@
 import { format } from "date-fns"
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
-import { Button } from "@/components/ui/button"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
-import { airports } from "@/types/TripTypes"
-import { TripTypeSelector } from "./trip-type-selector"
-import { AirportSelector } from "./airport-selector"
-import { DateSelector } from "./date-selector"
 import { useBookingForm } from "@/hooks/useBookingForm"
+import { airports } from "@/types/TripTypes"
+import { AirportSelector } from "./airport-selector"
+import { DateRangeSelector } from "./date-range-selector"
+import { TripTypeSelector } from "./trip-type-selector"
 
 export function BookingForm() {
   const {
@@ -29,7 +29,7 @@ export function BookingForm() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md min-w-[400px]">
         <CardHeader>
           <CardTitle>QbAir Booking</CardTitle>
           <CardDescription>Book your flight with QbAir</CardDescription>
@@ -67,23 +67,15 @@ export function BookingForm() {
                 placeholder="Select destination airport" 
               />
 
-              <DateSelector
+              <DateRangeSelector
                 control={form.control}
-                name="departureDate"
-                label="Departure Date"
-                description="Select your departure date (must be today or later)"
+                label={tripType === "one-way" ? "Departure Date" : "Travel Dates"}
+                description={tripType === "one-way" 
+                  ? "Select your departure date (must be today or later)" 
+                  : "Select your departure and return dates"}
                 disabledDatesFn={isDepartureDateDisabled}
+                tripType={tripType}
               />
-
-              {tripType === "round-trip" && (
-                <DateSelector
-                  control={form.control}
-                  name="returnDate"
-                  label="Return Date"
-                  description="Select your return date (must be same or later than departure date)"
-                  disabledDatesFn={isReturnDateDisabled}
-                />
-              )}
 
               <div className="flex gap-4">
                 <Button 
