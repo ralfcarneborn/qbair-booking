@@ -28,8 +28,8 @@ export function AirportSelector({
           <FormLabel>{label}</FormLabel>
           <Select 
             onValueChange={field.onChange} 
-            value={field.value || undefined}
-            defaultValue={undefined}
+            value={field.value || ""}
+            defaultValue=""
           >
             <FormControl>
               <SelectTrigger className="w-full">

@@ -168,6 +168,8 @@ export function useBookingForm() {
       tripType: "one-way",
       origin: "",
       destination: "",
+      departureDate: undefined,
+      returnDate: undefined
     })
     setFormData(null)
     setParseErrors({})
